@@ -69,7 +69,7 @@ def third_anagram?(first_word, second_word)
   first_word.chars.sort == second_word.chars.sort
 end
 
-# Time Complexity 2*n*n*logn 2n^2logn,
+# Time Complexity 2*n*n*logn 2n + nlogn,
 # p third_anagram?("gizmo", "sally")    #=> false
 # p third_anagram?("elvis", "lives")    #=> true
 
