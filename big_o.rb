@@ -42,17 +42,20 @@ def largest_sub_sum(array)
 end
 
 list = [5, 3, -7]
-p largest_sub_sum(list)
+# p largest_sub_sum(list)
 
 #NB n^6 worst case
 
 def better_largest_sub_sum(array)
   largest_sum = 0
+  current_sum = 0
   array.each_with_index do |el, idx|
-    largest_sum += el if el > 0
+    current_sum += el
+    current_sum = 0 if current_sum < 0
+    largest_sum = current_sum if current_sum > largest_sum
   end
-
   largest_sum
 end
 
 p better_largest_sub_sum(list)
+p better_largest_sub_sum([1, -4, 5, -1, -2, 100])
