@@ -1,3 +1,5 @@
+require 'benchmark'
+
 def max_windowed_range_naive(array, window)
   current_max_range = nil
   i = 0
@@ -118,10 +120,37 @@ def max_windowed_range(array, window)
   current_max_range
 end
 
+array = []
+
+1230120.times do |idx|
+  array << idx
+
+end
+
+array.shuffle!
+array2 = array.dup
+array2.shuffle!
+
+def anagram?(first_word, second_word)
+  first_word.split('').permutation.to_a.uniq.map do |letter_array|
+    letter_array.join('')
+  end.include?(second_word)
+end
+
+
+
+Benchmark.bm do |x|
+  x.report("better") { max_windowed_range(array, 3) }
+  x.report("bad") { max_windowed_range_naive(array2, 3) }
+  x.report("factorial") { anagram?("skldjflaksd","hey")}
+end
+
+
+
 #NB Should have O(n) time
-p max_windowed_range([1, 2, 3, 5], 3)
-p max_windowed_range([1, 0, 2, 5, 4, 8], 2) == 4 # 4, 8
-p max_windowed_range([1, 0, 2, 5, 4, 8], 3) == 5 # 0, 2, 5
-p max_windowed_range([1, 0, 2, 5, 4, 8], 4) == 6 # 2, 5, 4, 8
-p max_windowed_range([1, 3, 2, 5, 4, 8], 5) == 6 # 3, 2, 5, 4, 8
+# p max_windowed_range([1, 2, 3, 5], 3)
+# p max_windowed_range([1, 0, 2, 5, 4, 8], 2) == 4 # 4, 8
+# p max_windowed_range([1, 0, 2, 5, 4, 8], 3) == 5 # 0, 2, 5
+# p max_windowed_range([1, 0, 2, 5, 4, 8], 4) == 6 # 2, 5, 4, 8
+# p max_windowed_range([1, 3, 2, 5, 4, 8], 5) == 6 # 3, 2, 5, 4, 8
 stackqueue = StackQueue.new
