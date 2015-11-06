@@ -9,11 +9,16 @@ def max_windowed_range_naive(array, window)
   end
   current_max_range
 end
-p max_windowed_range_naive([1, 2, 3, 5], 3)
-p max_windowed_range_naive([1, 0, 2, 5, 4, 8], 2) == 4 # 4, 8
-p max_windowed_range_naive([1, 0, 2, 5, 4, 8], 3) == 5 # 0, 2, 5
-p max_windowed_range_naive([1, 0, 2, 5, 4, 8], 4) == 6 # 2, 5, 4, 8
-p max_windowed_range_naive([1, 3, 2, 5, 4, 8], 5) == 6 # 3, 2, 5, 4, 8
+
+#NB Should be O(n^2) time
+
+# p max_windowed_range_naive([1, 2, 3, 5], 3)
+# p max_windowed_range_naive([1, 0, 2, 5, 4, 8], 2) == 4 # 4, 8
+# p max_windowed_range_naive([1, 0, 2, 5, 4, 8], 3) == 5 # 0, 2, 5
+# p max_windowed_range_naive([1, 0, 2, 5, 4, 8], 4) == 6 # 2, 5, 4, 8
+# p max_windowed_range_naive([1, 3, 2, 5, 4, 8], 5) == 6 # 3, 2, 5, 4, 8
+
+
 
 
 class MyStack
@@ -99,4 +104,24 @@ class StackQueue
 
 end
 
+def max_windowed_range(array, window)
+  queue = StackQueue.new
+  current_max_range = nil
+  window.times {queue.enqueue(array.shift)}
+  current_max_range = queue.max - queue.min
+  until array.empty?
+    queue.dequeue
+    queue.enqueue(array.shift)
+    range = queue.max - queue.min
+    current_max_range = range if range > current_max_range
+  end
+  current_max_range
+end
+
+#NB Should have O(n) time
+p max_windowed_range([1, 2, 3, 5], 3)
+p max_windowed_range([1, 0, 2, 5, 4, 8], 2) == 4 # 4, 8
+p max_windowed_range([1, 0, 2, 5, 4, 8], 3) == 5 # 0, 2, 5
+p max_windowed_range([1, 0, 2, 5, 4, 8], 4) == 6 # 2, 5, 4, 8
+p max_windowed_range([1, 3, 2, 5, 4, 8], 5) == 6 # 3, 2, 5, 4, 8
 stackqueue = StackQueue.new
